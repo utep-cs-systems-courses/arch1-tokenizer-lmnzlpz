@@ -1,5 +1,12 @@
-#include <string.h>
 #include <stdio.h>
+
+int strln(char *s)
+{
+  int n;
+  for (n = 0; *s != '\0'; s++)
+    n++;
+  return n;
+}
 
 int main()
 {
@@ -15,8 +22,8 @@ int main()
 	}
 
       //printf("%c", *(input+1));
-      for (int i = 0; i < strlen(input); i++)
-      {
+      for (int i = 0; i < strln(input); i++)
+      {  
         printf("%c", *(input+i));
       }
       printf("\n");
