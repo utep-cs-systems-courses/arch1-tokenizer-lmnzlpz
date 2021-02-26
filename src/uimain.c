@@ -1,32 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "tokenizer.h"
 
-int strln(char *s)
+char **tokenize(char *s)
 {
-  int n;
-  for (n = 0; *s != '\0'; s++)
-    n++;
-  return n;
+  int count = count_words(s);
+  char **ma = (char**)malloc((count+1)*sizeof(char)); // +1 for the \0.
+  char *end;
+  char *start = word_start(s);
+  for (int i = 0; i < count; i++){
+    end = word_terminator(start); // makes the action act on the token.
+    *(ma+i) = copy_str(start, (end - start));
+    start = word_start(end);
+  }
+  *(ma+(count+1)) = '\0';
+  return ma;
 }
 
 int main()
 {
   char input[100];
-  while (1)
-    {
+  while (1){
       printf(">>>");
       fgets(input, sizeof(input), stdin);
 
       if(*input == '~')
-	{
 	  break;
-	}
-
-      //printf("%c", *(input+1));
-      for (int i = 0; i < strln(input); i++)
-      {  
-        printf("%c", *(input+i));
-      }
-      printf("\n");
+      
+      printf("%s\n___________\n", input);
+      printf("%s\n", *tokenize(input));
     }
   return 0;
 }
