@@ -1,7 +1,7 @@
 #OBJS is a variable containing o files#
-OBJS= string_funcs.o uimain.o mem_allc.o
+OBJS= string_funcs.o uimain.o
 
-CFLAGS= -g
+CFLAGS= -g #for debug#
 
 all: tokenizer_ui
 
