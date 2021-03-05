@@ -1,39 +1,40 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "tokenizer.h"
+#include "history.h"
 
-int space_char(char c)
-{
+// Determines if a char is a space or tab.
+int space_char(char c){
   if (c == '\t' || c == ' ')
     return 1;
   else 
     return 0;
 }
 
-int non_space_char(char c)
-{
+// Determines if a char is not a space or tab.
+int non_space_char(char c){
   if (c == '\t' || c == ' ' || c == '\0')
     return 0;
   else
     return 1;
 }
 
-char *word_start(char *str)
-{
+//Returns a pointer to the start of a word.
+char *word_start(char *str){
   while(space_char(*str))
     str++;
   return str;
 }
 
-char *word_terminator(char *word)
-{
+//Returns a pointer to the end of a word.
+char *word_terminator(char *word){
   while(non_space_char(*word))
     word++;
-  return word - 1;
+  return word;
 }
 
-int count_words(char *str) 
-{
+//Counts the number of words in one input instance.
+int count_words(char *str){
   int count = 0;
   while (*str != '\0'){
       if (space_char(*str))
@@ -43,30 +44,31 @@ int count_words(char *str)
   return count;
 }
 
-char *copy_str(char *inStr, short len)
-{
-  char *mem = (char*)malloc((len+1)*sizeof(char));
+//Returns a newly allocated memory pointer with a copy of inStr
+char *copy_str(char *inStr, short len){
+  char *copy = (char*)malloc((len+1)*sizeof(char));
   for (int i = 0; i < len; i++)
-    *(mem+i) = *(inStr+i);
-  *(mem+(len)) = '\0';
-  return mem;
+    *(copy+i) = *(inStr+i);
+  *(copy+(len)) = '\0';
+  return copy;
 }
 
-void print_tokens(char **tokens)
-{
-  //printf("%d", sizeof(*tokens));
-  for (int i = 0; **tokens != '\0'; i++)
-    printf("%s\n", *(tokens+i));
+//Prints tokens
+void print_tokens(char **tokens){
+  for (int i = 0; tokens[i] != '\0'; i++){
+    printf("%s\n", tokens[i]);
+  }
 }
 
-void free_tokens(char **tokens)
-{
-  free(*tokens);
-  printf("Tokens freed.\n");
+//Frees the memory holding the tokens.
+void free_tokens(char **tokens){
+  for (int i = 0; tokens[i] != '\0'; i++){
+    free(tokens[i]);
+  }
 }
 
-char **tokenize(char *s)
-{
+//Tokenize method that turn a string into tokens. 
+char **tokenize(char *s){
   int count = count_words(s);
   char **pointer_array = (char**)malloc((count+1)*sizeof(char*)); // +1 for the \0.
   char *end;
@@ -79,18 +81,3 @@ char **tokenize(char *s)
   *(pointer_array+count) = NULL;
   return pointer_array;
 }
-/*
-int main()
-{
-  char leo[] = ("Ashe7l9hellohowareyou hello");
-  char x = *word_start(leo);
-  char end = *word_terminator(leo);
-  putchar(x);
-  printf("\n");
-  putchar(end);
-  printf("\n");
-
-  int count = count_words(leo);
-  printf("%d\n", count);
-}
-*/

@@ -1,5 +1,5 @@
 #OBJS is a variable containing o files#
-OBJS= string_funcs.o uimain.o
+OBJS= string_funcs.o uimain.o history.o
 
 CFLAGS= -g #for debug#
 
